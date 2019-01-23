@@ -24,9 +24,9 @@ class App extends Component {
         });
       })
       .catch(err => {
-        console.log(err.response.statusText);
+        console.log(err);
         this.setState({
-          error: `Friend ${err.response.statusText} :(`
+          error: `Friend ${err} :(`
         });
       });
   }
@@ -34,6 +34,25 @@ class App extends Component {
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  // handleUpdate = (e, id) => {
+  //   e.preventDefault();
+  //   const friends = this.state.friends.map(friend => {
+  //     if (friend.id === id) {
+  //       return;
+  //     }
+  //   });
+  // };
+
+  handleDelete = (e, id) => {
+    e.preventDefault();
+    axios.delete(`http://localhost:5000/friends/${id}`).then(res => {
+      console.log(res.data);
+      this.setState({
+        friends: res.data
+      });
     });
   };
 
@@ -53,14 +72,22 @@ class App extends Component {
           age: '',
           email: ''
         });
-      });
+      })
+      .catch(err =>
+        this.setState({
+          error: err
+        })
+      );
   };
 
   render() {
     return (
       <div className='App'>
-        {this.state.error && <h2>{this.state.error}</h2>}
-        <Friends friends={this.state.friends} />
+        {!this.state.friends && <h2>{this.state.error}</h2>}
+        <Friends
+          friends={this.state.friends}
+          handleDelete={this.handleDelete}
+        />
         <NewFriendForm
           name={this.state.name}
           age={this.state.age}
