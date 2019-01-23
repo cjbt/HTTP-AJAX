@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import Friends from './component/Friends/Friends';
+import NewFriendForm from './component/NewFriendForm/NewFriendForm';
 
 class App extends Component {
   state = {
     friends: [],
-    error: ''
+    error: '',
+    name: '',
+    age: '',
+    email: ''
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   componentDidMount() {
@@ -31,6 +41,12 @@ class App extends Component {
       <div className='App'>
         {this.state.error && <h2>{this.state.error}</h2>}
         <Friends friends={this.state.friends} />
+        <NewFriendForm
+          name={this.state.name}
+          age={this.state.age}
+          email={this.state.email}
+          handleChange={this.handleChange}
+        />
       </div>
     );
   }
