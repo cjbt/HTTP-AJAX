@@ -13,12 +13,6 @@ class App extends Component {
     email: ''
   };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
   componentDidMount() {
     axios
       .get('http://localhost:5000/friends')
@@ -36,6 +30,32 @@ class App extends Component {
         });
       });
   }
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/friends', {
+        name: this.state.name,
+        age: this.state.age,
+        email: this.state.email
+      })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          friends: res.data,
+          name: '',
+          age: '',
+          email: ''
+        });
+      });
+  };
+
   render() {
     return (
       <div className='App'>
@@ -46,6 +66,7 @@ class App extends Component {
           age={this.state.age}
           email={this.state.email}
           handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );

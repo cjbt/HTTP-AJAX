@@ -1,9 +1,9 @@
 import React from 'react';
 
 const NewFriendForm = props => {
-  const { name, age, email, handleChange } = props;
+  const { name, age, email, handleChange, handleSubmit } = props;
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         name='name'
         type='text'
