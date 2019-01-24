@@ -10,7 +10,9 @@ class App extends Component {
     error: '',
     name: '',
     age: '',
-    email: ''
+    email: '',
+    isUpdating: false,
+    beingUpdated: 0
   };
 
   componentDidMount() {
@@ -37,14 +39,41 @@ class App extends Component {
     });
   };
 
-  // handleUpdate = (e, id) => {
-  //   e.preventDefault();
-  //   const friends = this.state.friends.map(friend => {
-  //     if (friend.id === id) {
-  //       return;
-  //     }
-  //   });
-  // };
+  clickUpdate = (id, email, age, name) => {
+    this.setState(prevState => ({
+      isUpdating: !prevState.isUpdating,
+      beingUpdated: id,
+      email,
+      age,
+      name
+    }));
+  };
+
+  handleUpdate = e => {
+    e.preventDefault();
+    // const friends = this.state.friends.map(friend => {
+    //   if (friend.id === id) {
+    //     return;
+    //   }
+    // });
+
+    axios
+      .put(`http://localhost:5000/friends/${this.state.beingUpdated}`, {
+        name: this.state.name,
+        age: this.state.age,
+        email: this.state.email
+      })
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          friends: res.data,
+          name: '',
+          age: '',
+          email: ''
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
   handleDelete = (e, id) => {
     e.preventDefault();
@@ -87,6 +116,8 @@ class App extends Component {
         <Friends
           friends={this.state.friends}
           handleDelete={this.handleDelete}
+          isUpdating={this.state.isUpdating}
+          clickUpdate={this.clickUpdate}
         />
         <NewFriendForm
           name={this.state.name}
@@ -94,6 +125,7 @@ class App extends Component {
           email={this.state.email}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleUpdate={this.handleUpdate}
         />
       </div>
     );

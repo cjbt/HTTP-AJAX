@@ -1,9 +1,17 @@
 import React from 'react';
 
 const NewFriendForm = props => {
-  const { name, age, email, handleChange, handleSubmit } = props;
+  const {
+    name,
+    age,
+    email,
+    handleChange,
+    handleSubmit,
+    isUpdating,
+    handleUpdate
+  } = props;
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={isUpdating ? handleSubmit : handleUpdate}>
       <input
         name='name'
         type='text'

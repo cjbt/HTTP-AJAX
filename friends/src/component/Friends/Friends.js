@@ -8,7 +8,9 @@ const Friends = props => {
         <Friend
           friend={friend}
           key={friend.email}
-          handleDelete={(e) => props.handleDelete(e, friend.id)}
+          handleDelete={props.handleDelete}
+          handleUpdate={props.handleUpdate}
+          clickUpdate={props.clickUpdate}
         />
       ))}
     </div>
