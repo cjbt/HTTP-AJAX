@@ -3,7 +3,7 @@ import React from 'react';
 const NewFriendForm = props => {
   function handleSubmitLol(e) {
     e.preventDefault();
-    if (!isUpdating) {
+    if (isUpdating) {
       handleUpdate();
     } else {
       handleSubmit();
@@ -19,6 +19,7 @@ const NewFriendForm = props => {
     isUpdating,
     handleUpdate
   } = props;
+  console.log(isUpdating);
   return (
     <form onSubmit={handleSubmitLol}>
       <input
