@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import axios from 'axios';
 import Friends from './component/Friends/Friends';
 import NewFriendForm from './component/NewFriendForm/NewFriendForm';
@@ -40,6 +40,7 @@ class App extends Component {
   };
 
   clickUpdate = (id, email, age, name) => {
+    console.log(this.state.isUpdating);
     this.setState(prevState => ({
       isUpdating: !prevState.isUpdating,
       beingUpdated: id,
@@ -49,14 +50,7 @@ class App extends Component {
     }));
   };
 
-  handleUpdate = e => {
-    e.preventDefault();
-    // const friends = this.state.friends.map(friend => {
-    //   if (friend.id === id) {
-    //     return;
-    //   }
-    // });
-
+  handleUpdate = () => {
     axios
       .put(`http://localhost:5000/friends/${this.state.beingUpdated}`, {
         name: this.state.name,
@@ -85,8 +79,7 @@ class App extends Component {
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = () => {
     axios
       .post('http://localhost:5000/friends', {
         name: this.state.name,

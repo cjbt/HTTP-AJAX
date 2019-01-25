@@ -1,6 +1,15 @@
 import React from 'react';
 
 const NewFriendForm = props => {
+  function handleSubmitLol(e) {
+    e.preventDefault();
+    if (!isUpdating) {
+      handleUpdate();
+    } else {
+      handleSubmit();
+    }
+  }
+
   const {
     name,
     age,
@@ -11,7 +20,7 @@ const NewFriendForm = props => {
     handleUpdate
   } = props;
   return (
-    <form onSubmit={isUpdating ? handleSubmit : handleUpdate}>
+    <form onSubmit={handleSubmitLol}>
       <input
         name='name'
         type='text'
